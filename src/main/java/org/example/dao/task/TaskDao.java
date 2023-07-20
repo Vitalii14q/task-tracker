@@ -1,4 +1,8 @@
 package org.example.dao.task;
 
-public interface TaskDao {
+import org.example.dao.Dao;
+import org.example.dto.Task;
+
+public interface TaskDao extends Dao<Task>{
+
 }

@@ -1,44 +1,42 @@
 package org.example.dao.epic;
 
-import org.example.dao.epic.EpicDao;
+import org.example.dao.util.IdGenerator;
 import org.example.dto.Epic;
-import org.example.dto.Subtask;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class InMemoryEpicDao implements EpicDao {
 
-    private long currentId;
-    HashMap<Long, Epic> epicHashMap = new HashMap<>();
+    private final HashMap<Long, Epic> epicHashMap = new HashMap<>();
+    private final IdGenerator idGenerator = new IdGenerator();
 
-    private long generateId() {
-        return currentId++;
-    }
     @Override
     public long add(Epic epic) {
-        long id = generateId();
+        long id = idGenerator.generateId();
         epicHashMap.put(id, epic);
+        epic.setId(id);
         return id;
     }
 
     @Override
-    public void update() {
-
+    public void update(Epic epic) {
+        epicHashMap.put(epic.getId(), epic);
     }
 
     @Override
-    public void remove() {
-
+    public void remove(long id) {
+        epicHashMap.remove(id);
     }
 
     @Override
     public List<Epic> getAll() {
-        return null;
+        return new ArrayList<>(epicHashMap.values());
     }
 
     @Override
     public Epic getById(long id) {
-        return null;
+        return epicHashMap.get(id);
     }
 }

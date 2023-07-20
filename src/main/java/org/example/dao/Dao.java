@@ -7,9 +7,9 @@ import java.util.List;
 public interface Dao<T> {
     long add(T element);
 
-    void update();
+    void update(T element);
 
-    void remove();
+    void remove(long id);
 
     List<T> getAll();
 
