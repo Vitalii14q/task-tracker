@@ -14,7 +14,6 @@ import java.util.List;
 
 public class TaskManagerImp implements TaskManger{
     private final TaskDao taskDao = new InMemoryTaskDao();
-
     private final SubTaskDao subTaskDao = new InMemorySubTaskDao();
     private final EpicDao epicDao = new InMemoryEpicDao();
 
@@ -25,71 +24,71 @@ public class TaskManagerImp implements TaskManger{
 
     @Override
     public void updateTask(Task task) {
-        
+        taskDao.update(task);
     }
 
     @Override
     public void removeTask(long taskId) {
-
+        taskDao.remove(taskId);
     }
 
     @Override
     public Task getTaskById(long taskId) {
-        return null;
+        return taskDao.getById(taskId);
     }
 
     @Override
     public List<Task> getAllTasks() {
-        return null;
+        return taskDao.getAll();
     }
 
     @Override
     public long addSubTask(Subtask subtask) {
-        return 0;
+        return subTaskDao.add(subtask);
     }
 
     @Override
     public void updateSubTask(Subtask subtask) {
-
+        subTaskDao.update(subtask);
     }
 
     @Override
-    public void removeSubTask(long SubTaskId) {
-
+    public void removeSubTask(long subTaskId) {
+        subTaskDao.remove(subTaskId);
     }
 
     @Override
-    public Subtask getSubtaskById(long SubtaskId) {
-        return null;
+    public Subtask getSubtaskById(long subtaskId) {
+        return subTaskDao.getById(subtaskId);
     }
 
     @Override
     public List<Subtask> getAllSubtasks() {
-        return null;
+        return subTaskDao.getAll();
     }
 
     @Override
     public long addEpic(Epic epic) {
-        return 0;
+        return epicDao.add(epic);
     }
 
     @Override
     public void updateEpic(Epic epic) {
-
+        epicDao.update(epic);
     }
 
     @Override
-    public void removeEpic(Epic epic) {
-
+    public void removeEpic(long epicId) {
+        epicDao.remove(epicId);
     }
 
     @Override
-    public Epic getEpicById(long EpicId) {
-        return null;
+    public Epic getEpicById(long epicId) {
+        return epicDao.getById(epicId);
     }
 
     @Override
     public List<Epic> getAllEpic() {
-        return null;
+        return epicDao.getAll();
     }
 }

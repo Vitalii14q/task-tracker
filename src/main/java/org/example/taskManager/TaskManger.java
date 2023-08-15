@@ -19,7 +19,7 @@ public interface TaskManger {
     List<Subtask> getAllSubtasks();
     long addEpic(Epic epic);
     void updateEpic(Epic epic);
-    void removeEpic(Epic epic);
-    Epic getEpicById(long EpicId);
+    void removeEpic(long epicId);
+    Epic getEpicById(long epicId);
     List<Epic> getAllEpic();
 }
