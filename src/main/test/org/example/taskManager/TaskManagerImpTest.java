@@ -5,20 +5,25 @@ import org.example.dto.Task;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
 
 class TaskManagerImpTest {
-    private final TaskManger taskManger = new TaskManagerImp();
+    private final TaskManger taskManager = new TaskManagerImp();
 
+    private Task buildTask () {
+        Task taskForAdd = new Task();
+        taskForAdd.setName("Bay apple");
+        taskForAdd.setDescription("Bay green apple");
+        taskForAdd.setStatus(Status.NEW);
+
+        return taskForAdd;
+    }
     @Test
     void addTask() {
-        Task expectedTask = new Task();
-        expectedTask.setName("By apple");
-        expectedTask.setDescription("By green apple");
-        expectedTask.setStatus(Status.NEW);
+        Task expectedTask = buildTask();
 
-        long taskId = taskManger.addTask(expectedTask);
-        Task actualTask = taskManger.getTaskById(taskId);
+        long taskId = taskManager.addTask(expectedTask);
+        Task actualTask = taskManager.getTaskById(taskId);
 
         Assertions.assertEquals(expectedTask.getName(), actualTask.getName());
         Assertions.assertEquals(expectedTask.getDescription(), actualTask.getDescription());
@@ -27,20 +32,58 @@ class TaskManagerImpTest {
         Assertions.assertTrue(actualTask.getId() >= 0);
     }
 
+
+
     @Test
     void updateTask() {
+        long taskId = taskManager.addTask(buildTask());
+
+        Task expectedUpdateTask = new Task();
+        expectedUpdateTask.setId(taskId);
+        expectedUpdateTask.setName("Bay apple and peach");
+        expectedUpdateTask.setDescription("Bay green apple and yellow peach");
+        expectedUpdateTask.setStatus(Status.IN_PROGRESS);
+
+        taskManager.updateTask(expectedUpdateTask);
+        Task actualUpdateTask = taskManager.getTaskById(taskId);
+
+        Assertions.assertEquals(expectedUpdateTask.getName(), actualUpdateTask.getName());
+        Assertions.assertEquals(expectedUpdateTask.getDescription(), actualUpdateTask.getDescription());
+        Assertions.assertEquals(expectedUpdateTask.getStatus(), actualUpdateTask.getStatus());
+        Assertions.assertEquals(actualUpdateTask.getId(), expectedUpdateTask.getId());
     }
 
     @Test
     void removeTask() {
+        long taskId = taskManager.addTask(buildTask());
+        taskManager.removeTask(taskId);
+
+        Assertions.assertNull(taskManager.getTaskById(taskId));
     }
 
-    @Test
-    void getTaskById() {
+    private boolean searchElement(long taskId, List<Task> tasks) {
+        for (int i = 0; i < tasks.size(); i++){
+            Task element = tasks.get(i);
+            if (element.getId() == taskId) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Test
     void getAllTasks() {
+        long taskId1 = taskManager.addTask(buildTask());
+        long taskId2 = taskManager.addTask(buildTask());
+        long taskId3 = taskManager.addTask(buildTask());
+
+        List<Task> tasks = taskManager.getAllTasks();
+
+        Assertions.assertTrue(tasks.size() >= 3);
+        Assertions.assertTrue(searchElement(taskId1, tasks));
+        Assertions.assertTrue(searchElement(taskId2, tasks));
+        Assertions.assertTrue(searchElement(taskId3, tasks));
+
     }
 
     @Test
